@@ -1,11 +1,29 @@
+/**
+ * Provide State
+ * @module provide-state
+ * @license MIT
+ */
+
 import Immutable from 'immutable';
 import React from 'react';
 import omit from 'lodash.omit';
 import mapValues from 'lodash.mapvalues';
 
+/**
+ * Normalize a selector into an array or immutable iterable
+ * @param {(string|Array|Immutable.Iterable)} selector - The selector to normalise. If a string,
+ * sections should be seperated by dots.
+ * @returns {Immutable.Iterable} - The exploded path for this selector
+ * @example
+ * formatSelector('todos.0.name');
+ * // > List('todos', '0', 'name');
+ * formatSelector(['icecreams', 'chocolate'])
+ * // > List('icecreams', 'chocolate')
+ */
 export const formatSelector = selector => {
-  if (typeof selector === 'string') return selector.split('.');
-  if (Immutable.Iterable.isIterable(selector) || Array.isArray(selector)) return selector;
+  if (typeof selector === 'string') return Immutable.List(selector.split('.'));
+  if (Array.isArray(selector)) return Immutable.List(selector);
+  if (Immutable.Iterable.isIterable(selecto)) return selector;
   throw new TypeError(`Bad selector ${selector} - selector must be iterable or string`);
 };
 
@@ -51,12 +69,10 @@ export class StateProvider {
     const stateProvider = this;
     const ref = isReactComponent(Component) ? 'component' : undefined;
 
-    return class extends React.Component {
-      static propTypes = {
-        children: React.PropTypes.node,
-      };
-
-      static displayName = `ProvideState(${getDisplayName(Component)})`;
+    const Wrapped = class extends React.Component {
+      constructor() {
+        this.resolveSubscriptions = this.resolveSubscriptions.bind(this);
+      }
 
       componentDidMount() {
         this.unsubscribe = stateProvider.observe(this.resolveSubscriptions, () =>
@@ -75,12 +91,13 @@ export class StateProvider {
         };
       }
 
-      resolveBinding = binding =>
-        formatSelector(typeof binding === 'function'
+      resolveBinding(binding) {
+        return formatSelector(typeof binding === 'function'
           ? binding(this.props)
           : binding);
+      }
 
-      resolveSubscriptions = () => {
+      resolveSubscriptions() {
         const scope = this.resolveBinding(within);
         return mapValues(bindings, binding => scope.concat(this.resolveBinding(binding)));
       }
@@ -89,6 +106,12 @@ export class StateProvider {
         return React.createElement(Component, this.getResolvedProps(), this.props.children);
       }
     };
+
+    Wrapped.propTypes = {
+      children: React.PropTypes.node,
+    };
+
+    Wrapped.displayName = `ProvideState(${getDisplayName(Component)})`;
   }
 }
 
