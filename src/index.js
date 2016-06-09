@@ -3,7 +3,7 @@ import React from 'react';
 import omit from 'lodash.omit';
 import mapValues from 'lodash.mapvalues';
 
-const formatSelector = selector => {
+export const formatSelector = selector => {
   if (typeof selector === 'string') return selector.split('.');
   if (Immutable.Iterable.isIterable(selector) || Array.isArray(selector)) return selector;
   throw new TypeError(`Bad selector ${selector} - selector must be iterable or string`);
