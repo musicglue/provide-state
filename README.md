@@ -1,25 +1,209 @@
-<a name="module_provide-state"></a>
+# provideState
 
-## provide-state
-Provide State
+A minimal way of providing redux state to react components that doesn't use context
 
-**License**: MIT  
-<a name="module_provide-state.formatSelector"></a>
+Installation: `npm install provide-state`
 
-### provide-state.formatSelector ⇒ <code>Immutable.Iterable</code>
+**Meta**
+
+-   **license**: MIT
+
+# provideState
+
+The globalStateProvider provideState higher order component
+
+**Examples**
+
+```javascript
+import provideState from 'provide-state';
+function MyComponent({ userName, onChange }) {
+  return (
+    <label>
+      Update username for {userId}: <input type="text" value={userName} onChange={onChange} />
+    </label>
+  );
+}
+
+const WrappedComponent = provideState(MyComponent, {
+  within: (props) => ['users', props.userId],
+  bindings: {
+    userName: ['info.name'],
+  },
+  actions: {
+    onChange: (props, event) => ({
+      type: 'UPDATE_USER_NAME',
+      userId: props.userId,
+      name: event.target.value,
+    }),
+  },
+});
+
+React.render(<WrappedComponent userId="123" />);
+```
+
+# globalStateProvider
+
+An instance of StateProvider for convenience
+
+**Examples**
+
+```javascript
+import { globalStateProvider } from 'provide-state';
+```
+
+# setStore
+
+Set the store and mount point for the default global StateProvider
+
+**Parameters**
+
+-   `store` **Redux.Store** 
+-   `mountPoint` **\[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)]** 
+
+**Examples**
+
+```javascript
+import { setStore } from 'provide-state';
+setStore(reduxStore, 'myFancyMountPoint');
+```
+
+# selectFromStore
+
+The globalStateProvider selectFromStore method
+
+**Examples**
+
+```javascript
+import { selectFromStore } from 'provide-state';
+selectFromStore({ language: 'viewer.language', name: 'user.name' });
+// > { language: 'en', name: 'Apathy Hives' };
+```
+
+# observe
+
+The globalStateProvider observe method
+
+**Examples**
+
+```javascript
+import { observe } from 'provide-state';
+const unsubscribe = observe(() => ({ stock: ['product', id, 'stockLevel'] }), ({ stock }) => {
+  alert(`Stock level changed: ${stock}`);
+});
+
+// Later:
+unsubscribe();
+```
+
+# formatSelector
+
 Normalize a selector into an array or immutable iterable
 
-**Kind**: static constant of <code>[provide-state](#module_provide-state)</code>  
-**Returns**: <code>Immutable.Iterable</code> - - The exploded path for this selector  
+**Parameters**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| selector | <code>string</code> &#124; <code>Array</code> &#124; <code>Immutable.Iterable</code> | The selector to normalise. If a string, sections should be seperated by dots. |
+-   `selector` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | Immutable.Iterable)** The selector to normalise. If a string,
+    sections should be seperated by dots.
 
-**Example**  
-```js
+**Examples**
+
+```javascript
+import { formatSelector } from 'provide-state';
 formatSelector('todos.0.name');
 // > List('todos', '0', 'name');
 formatSelector(['icecreams', 'chocolate'])
 // > List('icecreams', 'chocolate')
 ```
+
+Returns **Immutable.Iterable** The exploded path for this selector
+
+# StateProvider
+
+The StateProvider class includes everything that the provideState function uses, scoped to a
+single redux store + mount point.
+
+With no `mountPoint` specified, your entire store state should be an Immutable.JS collection.
+When `mountPoint` is specified, we assume that your store state is a plain JS object, but that
+that key refers to an Immutable.JS collection.
+
+**Parameters**
+
+-   `store` **Redux.Store** the redux store you want to use the state of
+-   `mountPoint` **\[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)]** the key under the redux store you wish to use.
+
+**Examples**
+
+```javascript
+import { StateProvider } from 'provide-state';
+const stateProvider = new StateProvider(store, 'immutableMountPoint');
+
+function MyComponent({ name }) {
+  return <span>User: {name}</span>;
+}
+
+export default stateProvider.provideState(MyComponent, {
+  within: ({ userId }) => ['users', userId],
+  bindings: {
+    name: 'name',
+  },
+});
+```
+
+## StateProvider.getState
+
+Get the immutable collection from the store backing this StateProvider, using the `mountPoint`
+if specified
+
+Returns **Immutable.Collection** 
+
+## StateProvider.selectFromStore
+
+Select props from store using a selectors object
+
+**Parameters**
+
+-   `selectors` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** an object of prop names to selector paths
+    -   `selectors.$name` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | Immutable.Iterable)** 
+
+**Examples**
+
+```javascript
+stateProvider.selectFromStore({
+  name: 'user.name',
+  gender: ['user', 'gender'],
+});
+// > { name: 'Salsa', gender: 'Spiders' }
+```
+
+Returns **{$name: any}** an object mapping the keys from `selectors` to values from the store
+
+## StateProvider.observe
+
+Observe a set of selectors as the store changes
+
+**Parameters**
+
+-   `resolveSubscriptions`  {Function} - a function returning a set of selectors that can be
+    passed to StateProvider.selectFromStore
+-   `onChange`  {Function} - called with the new values whenever they change. Although this
+    uses `Redux.Store.subscribe` to handleChanges under the hood, onChange will only be called if
+    the resolved values are different from their state in the previous store.
+
+Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** The unsubscribe function
+
+## StateProvider.provideState
+
+A higher-order react component that provides state props into the wrapped component
+
+**Parameters**
+
+-   `Component` **React.Component** the Component to wrap
+-   `options` **\[[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)]** options detailing which props to provide and how to resolve
+    them (optional, default `{}`)
+    -   `options.bindings` **\[[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)]** an object mapping prop names to selectors for the
+        store. When a function is provided, it will be called with props and should return a selector. (optional, default `{}`)
+    -   `options.within` **\[([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | Immutable.Iterable | [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function))]** Optionally scope
+        all `bindings` to be beneath this selector (optional, default `[]`)
+    -   `options.actions` **\[[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)]** An object mapping prop names to functions that return
+        redux actions to be dispatched when they are called (optional, default `{}`)
+
+Returns **React.Component** The wrapped component
