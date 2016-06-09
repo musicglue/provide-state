@@ -1,0 +1,42 @@
+{
+  "name": "provide-state",
+  "version": "0.0.0",
+  "description": "A minimal way of providing redux state to react components that doesn't use context",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "prepublish": "npm run test && npm run build",
+    "test": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/musicglue/provide-state.git"
+  },
+  "keywords": [
+    "react",
+    "redux"
+  ],
+  "author": "Music Glue",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/musicglue/provide-state/issues"
+  },
+  "homepage": "https://github.com/musicglue/provide-state#readme",
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.1",
+    "babel-eslint": "^6.0.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-1": "^6.5.0",
+    "eslint": "^2.11.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.8.1",
+    "eslint-plugin-jsx-a11y": "^1.3.0",
+    "eslint-plugin-react": "^5.1.1"
+  },
+  "dependencies": {
+    "lodash.mapvalues": "^4.4.0",
+    "lodash.omit": "^4.3.0"
+  }
+}
