@@ -114,11 +114,12 @@ export default class StateProvider {
     const stateProvider = this;
     const ref = isReactComponent(Component) ? 'component' : undefined;
 
-    const Wrapped = class extends React.Component {
-      constructor() {
-        super();
-        this.resolveSubscriptions = this.resolveSubscriptions.bind(this);
-      }
+    return class extends React.Component {
+      static propTypes = {
+        children: React.PropTypes.node,
+      };
+
+      static displayName = `ProvideState(${getDisplayName(Component)})`;
 
       componentDidMount() {
         this.unsubscribe = stateProvider.observe(this.resolveSubscriptions, () =>
@@ -134,6 +135,7 @@ export default class StateProvider {
           ref,
           ...omit(this.props, ['children']),
           ...stateProvider.selectFromStore(this.resolveSubscriptions()).toJS(),
+          ...this.actions,
         };
       }
 
@@ -143,20 +145,17 @@ export default class StateProvider {
           : binding);
       }
 
-      resolveSubscriptions() {
+      resolveSubscriptions = () => {
         const scope = this.resolveBinding(within);
         return mapValues(bindings, binding => scope.concat(this.resolveBinding(binding)));
       }
+
+      actions = mapValues(actions, action => event =>
+        stateProvider.store.dispatch(action(event, this.props)));
 
       render() {
         return React.createElement(Component, this.getResolvedProps(), this.props.children);
       }
     };
-
-    Wrapped.propTypes = {
-      children: React.PropTypes.node,
-    };
-
-    Wrapped.displayName = `ProvideState(${getDisplayName(Component)})`;
   }
 }

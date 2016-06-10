@@ -30,7 +30,7 @@ const WrappedComponent = provideState(MyComponent, {
     userName: ['info.name'],
   },
   actions: {
-    onChange: (props, event) => ({
+    onChange: (event, props) => ({
       type: 'UPDATE_USER_NAME',
       userId: props.userId,
       name: event.target.value,
@@ -94,27 +94,6 @@ const unsubscribe = observe(() => ({ stock: ['product', id, 'stockLevel'] }), ({
 // Later:
 unsubscribe();
 ```
-
-# formatSelector
-
-Normalize a selector into an array or immutable iterable
-
-**Parameters**
-
--   `selector` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | Immutable.Iterable)** The selector to normalise. If a string,
-    sections should be seperated by dots.
-
-**Examples**
-
-```javascript
-import { formatSelector } from 'provide-state';
-formatSelector('todos.0.name');
-// > List('todos', '0', 'name');
-formatSelector(['icecreams', 'chocolate'])
-// > List('icecreams', 'chocolate')
-```
-
-Returns **Immutable.Iterable** The exploded path for this selector
 
 # StateProvider
 
@@ -207,3 +186,42 @@ A higher-order react component that provides state props into the wrapped compon
         redux actions to be dispatched when they are called (optional, default `{}`)
 
 Returns **React.Component** The wrapped component
+
+# formatSelector
+
+Normalize a selector into an array or immutable iterable
+
+**Parameters**
+
+-   `selector` **([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | Immutable.Iterable)** The selector to normalise. If a string,
+    sections should be seperated by dots.
+
+**Examples**
+
+```javascript
+import { formatSelector } from 'provide-state';
+formatSelector('todos.0.name');
+// > List('todos', '0', 'name');
+formatSelector(['icecreams', 'chocolate'])
+// > List('icecreams', 'chocolate')
+```
+
+Returns **Immutable.Iterable** The exploded path for this selector
+
+# joinSelectors
+
+Join several selectors into one selector
+
+**Parameters**
+
+-   `selectors` **...([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | Immutable.Iterable)** the selectors to join
+
+**Examples**
+
+```javascript
+import { joinSelectors } from 'provide-state';
+joinSelectors('a.b', ['c', 'd'], List(['e', 'f']));
+// > List('a', 'b', 'c', 'd', 'e', 'f')
+```
+
+Returns **** Immutable.List

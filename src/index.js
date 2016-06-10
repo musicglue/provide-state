@@ -7,10 +7,11 @@
  * @license MIT
  */
 
-import formatSelector from './formatSelector';
 import StateProvider from './StateProvider';
+import formatSelector from './formatSelector';
+import joinSelectors from './joinSelectors';
 
-export { formatSelector, StateProvider };
+export { StateProvider, formatSelector, joinSelectors };
 
 /**
  * An instance of StateProvider for convenience
@@ -84,7 +85,7 @@ export const observe = globalStateProvider.observe.bind(globalStateProvider);
  *     userName: ['info.name'],
  *   },
  *   actions: {
- *     onChange: (props, event) => ({
+ *     onChange: (event, props) => ({
  *       type: 'UPDATE_USER_NAME',
  *       userId: props.userId,
  *       name: event.target.value,
