@@ -1,4 +1,4 @@
-# provideState
+# react-relax
 
 A minimal way of providing redux state to react components that doesn't use context
 
@@ -7,39 +7,6 @@ Installation: `npm install react-relax`
 **Meta**
 
 -   **license**: MIT
-
-# provideState
-
-The globalStateProvider provideState higher order component
-
-**Examples**
-
-```javascript
-import provideState from 'react-relax';
-function MyComponent({ userName, onChange }) {
-  return (
-    <label>
-      Update username for {userId}: <input type="text" value={userName} onChange={onChange} />
-    </label>
-  );
-}
-
-const WrappedComponent = provideState(MyComponent, {
-  within: (props) => ['users', props.userId],
-  bindings: {
-    userName: ['info.name'],
-  },
-  actions: {
-    onChange: (event, props) => ({
-      type: 'UPDATE_USER_NAME',
-      userId: props.userId,
-      name: event.target.value,
-    }),
-  },
-});
-
-React.render(<WrappedComponent userId="123" />);
-```
 
 # globalStateProvider
 
@@ -93,6 +60,39 @@ const unsubscribe = observe(() => ({ stock: ['product', id, 'stockLevel'] }), ({
 
 // Later:
 unsubscribe();
+```
+
+# provideState
+
+The globalStateProvider provideState higher order component
+
+**Examples**
+
+```javascript
+import provideState from 'react-relax';
+function MyComponent({ userName, onChange }) {
+  return (
+    <label>
+      Update username for {userId}: <input type="text" value={userName} onChange={onChange} />
+    </label>
+  );
+}
+
+const WrappedComponent = provideState(MyComponent, {
+  within: (props) => ['users', props.userId],
+  bindings: {
+    userName: ['info.name'],
+  },
+  actions: {
+    onChange: (event, props) => ({
+      type: 'UPDATE_USER_NAME',
+      userId: props.userId,
+      name: event.target.value,
+    }),
+  },
+});
+
+React.render(<WrappedComponent userId="123" />);
 ```
 
 # StateProvider

@@ -3,7 +3,7 @@
  *
  * Installation: `npm install react-relax`
  *
- * @module provideState
+ * @module react-relax
  * @license MIT
  */
 
