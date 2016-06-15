@@ -1,7 +1,7 @@
 /**
  * A minimal way of providing redux state to react components that doesn't use context
  *
- * Installation: `npm install provide-state`
+ * Installation: `npm install react-relax`
  *
  * @module provideState
  * @license MIT
@@ -17,7 +17,7 @@ export { StateProvider, formatSelector, joinSelectors };
  * An instance of StateProvider for convenience
  * @see StateProvider
  * @example
- * import { globalStateProvider } from 'provide-state';
+ * import { globalStateProvider } from 'react-relax';
  */
 export const globalStateProvider = new StateProvider();
 
@@ -28,7 +28,7 @@ export const globalStateProvider = new StateProvider();
  * @param {string} [mountPoint]
  * @see StateProvider
  * @example
- * import { setStore } from 'provide-state';
+ * import { setStore } from 'react-relax';
  * setStore(reduxStore, 'myFancyMountPoint');
  */
 export const setStore = (store, mountPoint) => {
@@ -42,7 +42,7 @@ export const setStore = (store, mountPoint) => {
  * @see StateProvider.selectFromStore
  * @see globalStateProvider
  * @example
- * import { selectFromStore } from 'provide-state';
+ * import { selectFromStore } from 'react-relax';
  * selectFromStore({ language: 'viewer.language', name: 'user.name' });
  * // > { language: 'en', name: 'Apathy Hives' };
  */
@@ -54,7 +54,7 @@ export const selectFromStore = globalStateProvider.selectFromStore.bind(globalSt
  * @see StateProvider.observe
  * @see globalStateProvider
  * @example
- * import { observe } from 'provide-state';
+ * import { observe } from 'react-relax';
  * const unsubscribe = observe(() => ({ stock: ['product', id, 'stockLevel'] }), ({ stock }) => {
  *   alert(`Stock level changed: ${stock}`);
  * });
@@ -70,7 +70,7 @@ export const observe = globalStateProvider.observe.bind(globalStateProvider);
  * @see StateProvider.provideState
  * @see globalStateProvider
  * @example
- * import provideState from 'provide-state';
+ * import provideState from 'react-relax';
  * function MyComponent({ userName, onChange }) {
  *   return (
  *     <label>

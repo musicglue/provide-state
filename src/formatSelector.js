@@ -6,7 +6,7 @@ import Immutable from 'immutable';
  * sections should be seperated by dots.
  * @returns {Immutable.Iterable} The exploded path for this selector
  * @example
- * import { formatSelector } from 'provide-state';
+ * import { formatSelector } from 'react-relax';
  * formatSelector('todos.0.name');
  * // > List('todos', '0', 'name');
  * formatSelector(['icecreams', 'chocolate'])

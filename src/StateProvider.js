@@ -19,7 +19,7 @@ const isReactComponent = component =>
  * @param {Redux.Store} store - the redux store you want to use the state of
  * @param {string} [mountPoint] - the key under the redux store you wish to use.
  * @example
- * import { StateProvider } from 'provide-state';
+ * import { StateProvider } from 'react-relax';
  * const stateProvider = new StateProvider(store, 'immutableMountPoint');
  *
  * function MyComponent({ name }) {

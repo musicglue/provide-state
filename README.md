@@ -2,7 +2,7 @@
 
 A minimal way of providing redux state to react components that doesn't use context
 
-Installation: `npm install provide-state`
+Installation: `npm install react-relax`
 
 **Meta**
 
@@ -15,7 +15,7 @@ The globalStateProvider provideState higher order component
 **Examples**
 
 ```javascript
-import provideState from 'provide-state';
+import provideState from 'react-relax';
 function MyComponent({ userName, onChange }) {
   return (
     <label>
@@ -48,7 +48,7 @@ An instance of StateProvider for convenience
 **Examples**
 
 ```javascript
-import { globalStateProvider } from 'provide-state';
+import { globalStateProvider } from 'react-relax';
 ```
 
 # setStore
@@ -63,7 +63,7 @@ Set the store and mount point for the default global StateProvider
 **Examples**
 
 ```javascript
-import { setStore } from 'provide-state';
+import { setStore } from 'react-relax';
 setStore(reduxStore, 'myFancyMountPoint');
 ```
 
@@ -74,7 +74,7 @@ The globalStateProvider selectFromStore method
 **Examples**
 
 ```javascript
-import { selectFromStore } from 'provide-state';
+import { selectFromStore } from 'react-relax';
 selectFromStore({ language: 'viewer.language', name: 'user.name' });
 // > { language: 'en', name: 'Apathy Hives' };
 ```
@@ -86,7 +86,7 @@ The globalStateProvider observe method
 **Examples**
 
 ```javascript
-import { observe } from 'provide-state';
+import { observe } from 'react-relax';
 const unsubscribe = observe(() => ({ stock: ['product', id, 'stockLevel'] }), ({ stock }) => {
   alert(`Stock level changed: ${stock}`);
 });
@@ -112,7 +112,7 @@ that key refers to an Immutable.JS collection.
 **Examples**
 
 ```javascript
-import { StateProvider } from 'provide-state';
+import { StateProvider } from 'react-relax';
 const stateProvider = new StateProvider(store, 'immutableMountPoint');
 
 function MyComponent({ name }) {
@@ -199,7 +199,7 @@ Normalize a selector into an array or immutable iterable
 **Examples**
 
 ```javascript
-import { formatSelector } from 'provide-state';
+import { formatSelector } from 'react-relax';
 formatSelector('todos.0.name');
 // > List('todos', '0', 'name');
 formatSelector(['icecreams', 'chocolate'])
@@ -219,7 +219,7 @@ Join several selectors into one selector
 **Examples**
 
 ```javascript
-import { joinSelectors } from 'provide-state';
+import { joinSelectors } from 'react-relax';
 joinSelectors('a.b', ['c', 'd'], List(['e', 'f']));
 // > List('a', 'b', 'c', 'd', 'e', 'f')
 ```

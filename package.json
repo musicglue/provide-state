@@ -1,5 +1,5 @@
 {
-  "name": "provide-state",
+  "name": "react-relax",
   "version": "1.1.0",
   "description": "A minimal way of providing redux state to react components that doesn't use context",
   "main": "lib/index.js",
@@ -12,18 +12,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/musicglue/provide-state.git"
+    "url": "git+ssh://git@github.com/musicglue/react-relax.git"
   },
   "keywords": [
     "react",
-    "redux"
+    "redux",
+    "relax",
+    "seriously just calm down its going to be ok"
   ],
   "author": "Music Glue",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/musicglue/provide-state/issues"
+    "url": "https://github.com/musicglue/react-relax/issues"
   },
-  "homepage": "https://github.com/musicglue/provide-state#readme",
+  "homepage": "https://github.com/musicglue/react-relax#readme",
   "devDependencies": {
     "babel-cli": "^6.9.0",
     "babel-core": "^6.9.1",
