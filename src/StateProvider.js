@@ -151,7 +151,10 @@ export default class StateProvider {
       }
 
       actions = mapValues(actions, action => event =>
-        stateProvider.store.dispatch(action(event, this.props)));
+        stateProvider.store.dispatch(
+          typeof action === 'function'
+            ? action(event, this.props)
+            : action));
 
       render() {
         return React.createElement(Component, this.getResolvedProps(), this.props.children);
