@@ -1,6 +1,6 @@
 {
   "name": "react-relax",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A minimal way of providing redux state to react components that doesn't use context",
   "main": "lib/index.js",
   "scripts": {
@@ -38,7 +38,9 @@
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.8.1",
     "eslint-plugin-jsx-a11y": "^1.3.0",
-    "eslint-plugin-react": "^5.1.1"
+    "eslint-plugin-react": "^5.1.1",
+    "immutable": "^3.8.1",
+    "react": "^15.2.1"
   },
   "dependencies": {
     "lodash.mapvalues": "^4.4.0",
