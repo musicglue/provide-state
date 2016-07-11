@@ -121,13 +121,19 @@ export default class StateProvider {
 
       static displayName = `ProvideState(${getDisplayName(Component)})`;
 
+      isSubscribed() {
+        return typeof this.unsubscribe === 'function';
+      }
+
       componentDidMount() {
         this.unsubscribe = stateProvider.observe(this.resolveSubscriptions, () =>
           this.forceUpdate());
       }
 
       componentWillUnmount() {
-        this.unsubscribe();
+        if (this.isSubscribed()) {
+          this.unsubscribe();
+        }
       }
 
       getResolvedProps() {
