@@ -127,7 +127,7 @@ export default class StateProvider {
       }
 
       componentWillUnmount() {
-        this.unsubscribe();
+        if (typeof this.unsubscribe === 'function') this.unsubscribe();
       }
 
       getResolvedProps() {
