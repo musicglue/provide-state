@@ -41,6 +41,7 @@
     "eslint-plugin-react": "^5.1.1"
   },
   "dependencies": {
+    "immutable": "^3.8.1",
     "lodash.mapvalues": "^4.4.0",
     "lodash.omit": "^4.3.0"
   }
