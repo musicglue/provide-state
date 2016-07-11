@@ -224,4 +224,4 @@ joinSelectors('a.b', ['c', 'd'], List(['e', 'f']));
 // > List('a', 'b', 'c', 'd', 'e', 'f')
 ```
 
-Returns **** Immutable.List
+Returns **Any** Immutable.List
